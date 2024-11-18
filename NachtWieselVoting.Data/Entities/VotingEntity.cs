@@ -18,5 +18,5 @@ public sealed class VotingEntity
     public DateTime StartTime { get; set; }
     public DateTime? EndTime { get; set; }
     public bool Multiple { get; set; }
-    public List<VoteOptionEntity> Options { get; set; } = [];
+    public List<VotingOptionEntity> Options { get; set; } = [];
 }

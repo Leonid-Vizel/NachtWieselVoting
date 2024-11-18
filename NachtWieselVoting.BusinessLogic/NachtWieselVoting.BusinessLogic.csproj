@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Factories\" />
     <Folder Include="DependencyInjectionExtensions\" />
+    <Folder Include="Interfaces\Users\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,5 +10,5 @@ public sealed class NachtWieselVotingDbContext : DbContext
     public DbSet<UserEntity> Users { get; set; } = null!;
     public DbSet<VotingEntity> Votings { get; set; } = null!;
     public DbSet<VoteEntity> Votes { get; set; } = null!;
-    public DbSet<VoteOptionEntity> Options { get; set; } = null!;
+    public DbSet<VotingOptionEntity> Options { get; set; } = null!;
 }
