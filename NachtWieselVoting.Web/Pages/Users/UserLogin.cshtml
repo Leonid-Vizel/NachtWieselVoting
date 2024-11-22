@@ -10,12 +10,12 @@
     <form method="post">
         <div class="mb-3">
             <label asp-for="Login" class="form-label"></label>
-            <input asp-for="Login" class="form-control" placeholder="Введите логин" required>
+            <input asp-for="Login" class="form-control" placeholder="Введите логин">
             <span asp-validation-for="Login" class="text-danger" />
         </div>
         <div class="mb-3">
             <label asp-for="Password" class="form-label"></label>
-            <input asp-for="Password" class="form-control" placeholder="Введите пароль" required>
+            <input asp-for="Password" class="form-control" placeholder="Введите пароль">
             <span asp-validation-for="Password" class="text-danger" />
         </div>
         <div class="d-grid">
@@ -26,3 +26,7 @@
         </div>
     </form>
 </div>
+
+@section Scripts {
+    <Partial name="_ValidationScriptsPartial" />
+}

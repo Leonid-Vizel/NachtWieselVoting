@@ -8,6 +8,9 @@
     <h2 class="mb-0">Ваш профиль</h2>
     <a class="btn btn-warning" href="/Profile/Edit">Редактировать</a>
 </div>
+
+<hr class="my-1" />
+
 <div>
     <div class="mb-3">
         <label asp-for="Data.Login" class="form-label"></label>
@@ -20,4 +23,7 @@
         <span asp-validation-for="Data.Name" class="text-danger" />
     </div>
 </div>
-<a class="btn btn-danger mt-4" href="/Profile/Delete">Стереть данные</a>
+
+<hr class="my-1" />
+
+<a class="btn btn-danger mt-3" href="/Profile/Delete">Стереть данные</a>

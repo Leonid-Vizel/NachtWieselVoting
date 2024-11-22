@@ -23,8 +23,14 @@ public class UserLoginModel(IUserService userService, IUserManager userManager) 
     [MaxLength(100, ErrorMessage = "Максимальная длина пароля - {1} символов!")]
     public string Password { get; set; } = null!;
 
-    public void OnGet()
-        => Page();
+    public IActionResult OnGet()
+    {
+        if (userManager.GetAuthState())
+        {
+            return Redirect("/");
+        }
+        return Page();
+    }
 
     public async Task<IActionResult> OnPost()
     {

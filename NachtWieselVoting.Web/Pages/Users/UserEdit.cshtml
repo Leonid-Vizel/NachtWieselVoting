@@ -12,6 +12,9 @@
             <button class="btn btn-success">Сохранить</button>
         </div>
     </div>
+
+    <hr class="my-1" />
+
     <div>
         <div class="mb-3">
             <label asp-for="Login" class="form-label"></label>
@@ -25,3 +28,7 @@
         </div>
     </div>
 </form>
+
+@section Scripts {
+    <Partial name="_ValidationScriptsPartial" />
+}

@@ -21,8 +21,12 @@ public sealed class VoteService(NachtWieselVotingDbContext context) : IVoteServi
         {
             return null;
         }
-        var votingId = options[0].VotingId;
-        var voteAlreadyExists = await context.Votes.AnyAsync(x=>x.UserId == userId && x.Option.Voting.Id == votingId);
+        var voting = options[0].Voting;
+        if (!voting.Multiple && options.Count > 1)
+        {
+            return null;
+        }
+        var voteAlreadyExists = await context.Votes.AnyAsync(x=>x.UserId == userId && x.Option.Voting.Id == voting.Id);
         if (voteAlreadyExists)
         {
             return null;
@@ -34,6 +38,6 @@ public sealed class VoteService(NachtWieselVotingDbContext context) : IVoteServi
             UserId = userId,
         }));
 
-        return options[0].VotingId;
+        return voting.Id;
     }
 }

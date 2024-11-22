@@ -8,6 +8,9 @@
     <h2 class="mb-0">Вы уверены что хотите степерь свой аккаунт?</h2>
     <a class="btn btn-secondary" href="/Profile">Нет, назад</a>
 </div>
+
+<hr class="my-1" />
+
 <form method="post">
     <div class="mb-3">
         <label asp-for="Data.Login" class="form-label"></label>
@@ -21,3 +24,7 @@
     </div>
     <button class="btn btn-danger mt-4">Да, стереть данные</button>
 </form>
+
+@section Scripts {
+    <Partial name="_ValidationScriptsPartial" />
+}
