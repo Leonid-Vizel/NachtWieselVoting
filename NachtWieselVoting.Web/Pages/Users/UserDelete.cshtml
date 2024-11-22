@@ -3,3 +3,21 @@
 @{
     ViewData["Title"] = "Удаление пользователя";
 }
+
+<div class="d-flex justify-content-between mb-2">
+    <h2 class="mb-0">Вы уверены что хотите степерь свой аккаунт?</h2>
+    <a class="btn btn-secondary" href="/Profile">Нет, назад</a>
+</div>
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Data.Login" class="form-label"></label>
+        <input asp-for="Data.Login" class="form-control" placeholder="Введите логин" readonly>
+        <span asp-validation-for="Data.Login" class="text-danger" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Data.Name" class="form-label"></label>
+        <input asp-for="Data.Name" class="form-control" placeholder="Введите имя" readonly>
+        <span asp-validation-for="Data.Name" class="text-danger" />
+    </div>
+    <button class="btn btn-danger mt-4">Да, стереть данные</button>
+</form>

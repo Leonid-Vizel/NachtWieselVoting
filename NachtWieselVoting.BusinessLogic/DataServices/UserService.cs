@@ -11,18 +11,19 @@ public interface IUserService
     Task<UserEntity?> FindAsync(int id);
     Task<UserProfileData?> FindProfileAsync(int id);
     Task RegitserAsync(string login, string password);
-    Task<UserEntity?> FindByLoginAndPassword(string login, string password);
+    Task<UserEntity?> FindByLoginAndPasswordAsync(string login, string password);
     Task UpdateAsync(UserEntity entity);
+    Task RemoveAsync(UserEntity entity);
 }
 
 public sealed class UserService(NachtWieselVotingDbContext context) : IUserService
 {
     public Task LoginExistsAsync(string login)
-        => context.Users.AnyAsync(x=>x.Login.ToLower() == login.ToLower());
+        => context.Users.AnyAsync(x => x.Login.ToLower() == login.ToLower());
 
-    public async Task<UserEntity?> FindByLoginAndPassword(string login, string password)
+    public async Task<UserEntity?> FindByLoginAndPasswordAsync(string login, string password)
     {
-        var found = await context.Users.AsNoTracking().FirstOrDefaultAsync(x=>x.Login.ToLower() == login.ToLower());
+        var found = await context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Login.ToLower() == login.ToLower());
         if (found == null)
         {
             return null;
@@ -38,7 +39,7 @@ public sealed class UserService(NachtWieselVotingDbContext context) : IUserServi
     {
         var found = await context.Users.AsNoTracking()
             .Where(x => x.Id == id)
-            .Select(x=> new UserProfileData()
+            .Select(x => new UserProfileData()
             {
                 Login = x.Login,
                 Name = x.Name,
@@ -58,7 +59,7 @@ public sealed class UserService(NachtWieselVotingDbContext context) : IUserServi
         var entity = new UserEntity()
         {
             Login = login,
-            Password = password,
+            Password = BCrypt.Net.BCrypt.HashPassword(password),
             Name = login
         };
         await context.Users.AddAsync(entity);
@@ -68,6 +69,12 @@ public sealed class UserService(NachtWieselVotingDbContext context) : IUserServi
     public async Task UpdateAsync(UserEntity entity)
     {
         context.Update(entity);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task RemoveAsync(UserEntity entity)
+    {
+        context.Remove(entity);
         await context.SaveChangesAsync();
     }
 }

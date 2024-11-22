@@ -26,6 +26,7 @@ public class UserRegisterModel(IUserService userService) : PageModel
     [BindProperty]
     [DisplayName("Повторите пароль")]
     [Required(ErrorMessage = "Повторите пароль!")]
+    [DataType(DataType.Password, ErrorMessage = "Повторите пароль!")]
     [Compare(nameof(Password), ErrorMessage = "Пароли не совпадают!")]
     public string PasswordConfirmation { get; set; } = null!;
 

@@ -32,7 +32,7 @@ public class UserLoginModel(IUserService userService, IUserManager userManager) 
         {
             return Page();
         }
-        var found = await userService.FindByLoginAndPassword(Login, Password);
+        var found = await userService.FindByLoginAndPasswordAsync(Login, Password);
         if (found == null)
         {
             ModelState.AddModelError(nameof(Password), "Некорректный логин или пароль!");
