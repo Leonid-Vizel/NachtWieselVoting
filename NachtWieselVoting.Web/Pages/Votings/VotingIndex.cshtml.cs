@@ -8,5 +8,6 @@ public class VotingIndexModel : PageModel
 {
     public void OnGet(int id)
     {
+
     }
 }
