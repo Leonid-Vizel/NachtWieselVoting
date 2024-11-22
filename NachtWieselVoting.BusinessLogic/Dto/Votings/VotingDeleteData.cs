@@ -1,6 +1,6 @@
 ﻿namespace NachtWieselVoting.BusinessLogic.Dto.Votings;
 
-public sealed class VotingDeleteModel
+public sealed class VotingDeleteData
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

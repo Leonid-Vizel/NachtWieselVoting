@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Hubs\" />
-    <Folder Include="Pages\VotingOptions\" />
-    <Folder Include="Pages\Users\" />
-    <Folder Include="Pages\Votings\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\NachtWieselVoting.BusinessLogic\NachtWieselVoting.BusinessLogic.csproj" />
   </ItemGroup>
 

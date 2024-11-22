@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NachtWieselVoting.Web", "NachtWieselVoting.Web\NachtWieselVoting.Web.csproj", "{639A811D-CCCB-4510-BE32-DCEE9E6253A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NachtWieselVoting.Web", "NachtWieselVoting.Web\NachtWieselVoting.Web.csproj", "{639A811D-CCCB-4510-BE32-DCEE9E6253A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NachtWieselVoting.Data", "NachtWieselVoting.Data\NachtWieselVoting.Data.csproj", "{829E4DC0-8D9E-44EA-B43A-8E0BE69AE5C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NachtWieselVoting.Data", "NachtWieselVoting.Data\NachtWieselVoting.Data.csproj", "{829E4DC0-8D9E-44EA-B43A-8E0BE69AE5C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NachtWieselVoting.BusinessLogic", "NachtWieselVoting.BusinessLogic\NachtWieselVoting.BusinessLogic.csproj", "{C550AD2E-55E4-467F-929B-4F23B936C7C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NachtWieselVoting.BusinessLogic", "NachtWieselVoting.BusinessLogic\NachtWieselVoting.BusinessLogic.csproj", "{C550AD2E-55E4-467F-929B-4F23B936C7C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
