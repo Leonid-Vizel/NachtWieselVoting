@@ -2,10 +2,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using NachtWieselVoting.BusinessLogic.CommonServices;
+using NachtWieselVoting.BusinessLogic.DataServices;
 
 namespace NachtWieselVoting.Web.Pages.Users;
 
-public class UserEditModel : PageModel
+[Authorize]
+public class UserEditModel(IUserService userService, IUserManager userManager) : PageModel
 {
     [BindProperty]
     [DisplayName("Логин")]
@@ -20,11 +24,38 @@ public class UserEditModel : PageModel
     [MaxLength(1000, ErrorMessage = "Максимальная длина имени - {1} символов!")]
     public string Name { get; set; } = null!;
 
-    public void OnGet()
+    public async Task<IActionResult> OnGet()
     {
+        var userId = userManager.GetUserId();
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+        var found = await userService.FindProfileAsync(userId.Value);
+        if (found == null)
+        {
+            return NotFound();
+        }
+        Login = found.Login;
+        Name = found.Name;
+        return Page();
     }
 
-    public void OnPost()
+    public async Task<IActionResult> OnPost()
     {
+        var userId = userManager.GetUserId();
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+        var found = await userService.FindAsync(userId.Value);
+        if (found == null)
+        {
+            return NotFound();
+        }
+        found.Login = Login;
+        found.Name = Name;
+        await userService.UpdateAsync(found);
+        return Redirect("/Profile");
     }
 }

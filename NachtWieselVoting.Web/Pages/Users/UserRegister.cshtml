@@ -2,4 +2,29 @@
 @model UserRegisterModel
 @{
     ViewData["Title"] = "Регистрация";
+    Layout = "_LoginLayout";
 }
+
+<div class="login-container">
+    <h2 class="text-center mb-4">Регистрация</h2>
+    <form method="post">
+        <div class="mb-3">
+            <label asp-for="Login" class="form-label"></label>
+            <input asp-for="Login" class="form-control" placeholder="Введите логин" required>
+            <span asp-validation-for="Login" class="text-danger" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" placeholder="Введите пароль" required>
+            <span asp-validation-for="Password" class="text-danger" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="PasswordConfirmation" class="form-label"></label>
+            <input asp-for="PasswordConfirmation" class="form-control" placeholder="Повторите пароль" required>
+            <span asp-validation-for="PasswordConfirmation" class="text-danger" />
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        </div>
+    </form>
+</div>

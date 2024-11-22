@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
+using NachtWieselVoting.BusinessLogic.DataServices;
+using NachtWieselVoting.BusinessLogic.CommonServices;
 
 namespace NachtWieselVoting.Web.Pages.Users;
 
-public class UserLoginModel : PageModel
+public class UserLoginModel(IUserService userService, IUserManager userManager) : PageModel
 {
     [BindProperty]
     [DisplayName("Логин")]
@@ -22,6 +24,21 @@ public class UserLoginModel : PageModel
     public string Password { get; set; } = null!;
 
     public void OnGet()
+        => Page();
+
+    public async Task<IActionResult> OnPost()
     {
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+        var found = await userService.FindByLoginAndPassword(Login, Password);
+        if (found == null)
+        {
+            ModelState.AddModelError(nameof(Password), "Некорректный логин или пароль!");
+            return Page();
+        }
+        await userManager.SignInAsync(found);
+        return Redirect("/");
     }
 }

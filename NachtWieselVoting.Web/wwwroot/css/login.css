@@ -1,0 +1,39 @@
+﻿body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f7f7f7;
+}
+
+.login-container {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+    .login-container:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+
+.form-control {
+    position: relative;
+    transition: all 0.3s;
+}
+
+    .form-control:focus {
+        box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+        border-color: rgba(81, 203, 238, 1);
+    }
+
+.btn-primary {
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }

@@ -25,7 +25,7 @@ public static class AuthExtensions
         app.MapGet("/Logout", async (IUserManager _userManager) =>
         {
             await _userManager.SignOutAsync();
-            return Results.Redirect("/");
+            return Results.Redirect("/Login");
         });
     }
 }

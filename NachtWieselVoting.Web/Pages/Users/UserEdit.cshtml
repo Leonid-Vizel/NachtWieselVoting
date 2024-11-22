@@ -3,3 +3,25 @@
 @{
     ViewData["Title"] = "Изменение профиля";
 }
+
+<form method="post">
+    <div class="d-flex justify-content-between mb-2">
+        <h2 class="mb-0">Ваш профиль</h2>
+        <div>
+            <a class="btn btn-secondary" href="/Profile">Назад</a>
+            <button class="btn btn-success">Сохранить</button>
+        </div>
+    </div>
+    <div>
+        <div class="mb-3">
+            <label asp-for="Login" class="form-label"></label>
+            <input asp-for="Login" class="form-control" placeholder="Введите логин">
+            <span asp-validation-for="Login" class="text-danger" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" placeholder="Введите имя">
+            <span asp-validation-for="Name" class="text-danger" />
+        </div>
+    </div>
+</form>
