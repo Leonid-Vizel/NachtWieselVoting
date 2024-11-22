@@ -1,7 +1,17 @@
+using NachtWieselVoting.BusinessLogic.DependencyInjectionExtensions;
+using NachtWieselVoting.Web.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddSignalR();
+
+builder.AddDatabase();
+
+builder.Services.AddDataServices()
+    .AddCookieAuth();
 
 var app = builder.Build();
 
@@ -18,8 +28,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapLogout();
+
 app.MapRazorPages();
+app.MapHub<VoteHub>("/Votes/Live");
+
+app.Services.MigrateDatabase();
 
 app.Run();
