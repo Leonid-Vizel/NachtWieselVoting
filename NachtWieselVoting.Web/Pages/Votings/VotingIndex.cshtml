@@ -1,6 +1,83 @@
 ﻿@page "/Voting/{id:int}"
 @model VotingIndexModel
 @{
-    ViewData["Title"] = "Голосование";
+    ViewData["Title"] = $"Голосование {Model.Data.Name}";
 }
 
+<div>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+            <a class="btn btn-secondary" href="/Votings">Назад к списку</a>
+        </div>
+        <h2 class="mb-0">@ViewData["Title"]</h2>
+        <div></div>
+    </div>
+
+    <hr class="my-1" />
+    <div>
+        <p class="my-1">
+            <strong>Название:</strong>
+            <span>@Model.Data.Name</span>
+        </p>
+    </div>
+    @if (Model.Data.Description != null)
+    {
+        <div>
+            <p class="my-1">
+                <strong>Описание:</strong>
+                <span>@Model.Data.Description</span>
+            </p>
+        </div>
+    }
+    <div>
+        <p class="my-1">
+            <strong>Разрешено голосование за несколько опций:</strong>
+            <span>@(Model.Data.Multiple ? "разрешено" : "запрещено")</span>
+        </p>
+    </div>
+    <div>
+        <p class="my-1">
+            <strong>Дата и время завершения голосования:</strong>
+            @if (Model.Data.EndTime != null)
+            {
+                <span>@Model.Data.EndTime.Value.ToString("dd.MM.yyyy HH:mm:ss")</span>
+            }
+            else
+            {
+                <span>Не ограничено по времени</span>
+            }
+        </p>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end">
+    <a class="btn btn-success mx-1" role="button" href="/Voting/@Model.Data.Id/Vote">Голосовать</a>
+    <a class="btn btn-success" role="button" href="/Voting/@Model.Data.Id/Option/Create">Добавить опцию</a>
+</div>
+
+<hr class="my-1" />
+
+<div>
+    @if (Model.Data.Options.Count == 0)
+    {
+        <h6>Опций не найдено</h6>
+    }
+    else
+    {
+        <h6 class="my-2">Всего голосов: @Model.Data.TotalCount</h6>
+    }
+    @foreach (var option in Model.Data.Options)
+    {
+        <p class="my-0">@option.Name (@option.VotedCount голосов)</p>
+        <div class="progress" role="progressbar" signalr-updatable="true" signalr-optionId="@option.Id" aria-label="Example with label" aria-valuenow="@option.VotedCount" aria-valuemin="0" aria-valuemax="@Model.Data.TotalCount">
+            <div class="progress-bar" style="width: @(Model.Data.TotalCount == 0 ? 0 : (double)option.VotedCount/(double)Model.Data.TotalCount)%;"></div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>var VotingId = @Model.Data.Id;</script>
+    <script>var TotalCount = @Model.Data.TotalCount;</script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/voting.min.js" asp-append-version="true"></script>
+}

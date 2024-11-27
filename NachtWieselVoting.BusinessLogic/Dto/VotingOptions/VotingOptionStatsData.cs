@@ -8,4 +8,5 @@ public sealed class VotingOptionStatsData
     [DisplayName("Опция")]
     public string Name { get; set; } = null!;
     public int VotedCount { get; set; }
+    public bool Checked { get; set; }
 }

@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/js/voting.min.js",
+    "inputFiles": [
+      "wwwroot/js/voting.js"
+    ]
+  }
+]

@@ -11,5 +11,9 @@ public sealed class VotingIndexData
     public string Name { get; set; } = null!;
     [DisplayName("Описание")]
     public string? Description { get; set; } = null!;
+    public bool IsOwner { get; set; }
+    public DateTime? EndTime { get; set; }
+    public bool Multiple { get; set; }
     public List<VotingOptionStatsData> Options { get; set; } = [];
+    public int TotalCount => Options.Sum(x => x.VotedCount);
 }
