@@ -10,6 +10,7 @@ namespace NachtWieselVoting.Web.Pages.Votings;
 [Authorize]
 public class VotingEditModel : PageModel
 {
+    public int Id { get; set; }
     [BindProperty]
     [DisplayName("Название")]
     [Required(ErrorMessage = "Укажите название!")]
@@ -36,6 +37,7 @@ public class VotingEditModel : PageModel
 
     public async Task<IActionResult> OnGet(int id)
     {
+        Id = id;
         var data = await _votingService.FindEditDataAsync(id);
         if (data == null)
         {
@@ -50,6 +52,7 @@ public class VotingEditModel : PageModel
 
     public async Task<IActionResult> OnPost(int id)
     {
+        Id = id;
         if (!ModelState.IsValid)
         {
             return Page();
@@ -67,6 +70,6 @@ public class VotingEditModel : PageModel
 
         await _votingService.UpdateAsync(data);
 
-        return Redirect("/");
+        return Redirect($"/Voting/{id}");
     }
 }

@@ -6,38 +6,43 @@ namespace NachtWieselVoting.BusinessLogic.DataServices;
 
 public interface IVoteService
 {
-    Task<int?> VoteAsync(int userId, int[] optionIds);
+    Task<Tuple<List<int>, List<int>>> VoteAsync(int userId, List<int> optionIds);
 }
 
 public sealed class VoteService(NachtWieselVotingDbContext context) : IVoteService
 {
-    public async Task<int?> VoteAsync(int userId, int[] optionIds)
+    public async Task<Tuple<List<int>, List<int>>> VoteAsync(int userId, List<int> optionIds)
     {
         var options = await context.Options
             .Include(x => x.Voting)
-            .Where(x => optionIds.Distinct().Contains(x.Id))
+            .Where(x => optionIds.Contains(x.Id))
             .ToListAsync();
         if (options.Count == 0 || !options.All(x => x.VotingId == options[0].VotingId))
         {
-            return null;
+            return Tuple.Create<List<int>, List<int>>([], []);
         }
         var voting = options[0].Voting;
         if (!voting.Multiple && options.Count > 1)
         {
-            return null;
-        }
-        var voteAlreadyExists = await context.Votes.AnyAsync(x=>x.UserId == userId && x.Option.Voting.Id == voting.Id);
-        if (voteAlreadyExists)
-        {
-            return null;
+            return Tuple.Create<List<int>, List<int>>([], []);
         }
 
-        await context.Votes.AddRangeAsync(options.Select(option => new VoteEntity()
+        var pastVotes = await context.Votes
+            .Where(x => x.UserId == userId)
+            .Where(x => x.Option.Voting.Id == voting.Id)
+            .ToListAsync();
+
+        var removeOptions = pastVotes.Where(x => !optionIds.Contains(x.OptionId)).ToList();
+        var addOptions = options.Where(x => pastVotes.All(y => y.OptionId != x.Id)).ToList();
+
+        context.Votes.RemoveRange(removeOptions);
+        await context.Votes.AddRangeAsync(addOptions.Select(option => new VoteEntity()
         {
             Option = option,
             UserId = userId,
         }));
+        await context.SaveChangesAsync();
 
-        return voting.Id;
+        return Tuple.Create(pastVotes.Select(x => x.OptionId).ToList(), optionIds);
     }
 }

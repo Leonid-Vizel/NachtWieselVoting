@@ -1,0 +1,86 @@
+﻿@page "/Voting/{id:int}/Vote"
+@model VotingVoteModel
+@{
+    ViewData["Title"] = $"Голосование {Model.Data.Name}";
+}
+
+<div>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+            <a class="btn btn-secondary" href="/Voting/@Model.Data.Id">Назад</a>
+        </div>
+        <h2 class="mb-0">@ViewData["Title"]</h2>
+        <div></div>
+    </div>
+
+    <hr class="my-1" />
+    <div>
+        <p class="my-1">
+            <strong>Название:</strong>
+            <span>@Model.Data.Name</span>
+        </p>
+    </div>
+    @if (Model.Data.Description != null)
+    {
+        <div>
+            <p class="my-1">
+                <strong>Описание:</strong>
+                <span>@Model.Data.Description</span>
+            </p>
+        </div>
+    }
+    <div>
+        <p class="my-1">
+            <strong>Разрешено голосование за несколько опций:</strong>
+            <span>@(Model.Data.Multiple ? "разрешено" : "запрещено")</span>
+        </p>
+    </div>
+    <div>
+        <p class="my-1">
+            <strong>Дата и время завершения голосования:</strong>
+            @if (Model.Data.EndTime != null)
+            {
+                <span>@Model.Data.EndTime.Value.ToString("dd.MM.yyyy HH:mm:ss")</span>
+            }
+            else
+            {
+                <span>Не ограничено по времени</span>
+            }
+        </p>
+    </div>
+</div>
+
+<hr class="my-1" />
+
+<div>
+    @if (Model.Data.Options.Count == 0)
+    {
+        <h6>Опций не найдено</h6>
+    }
+
+    @foreach (var option in Model.Data.Options)
+    {
+        @if (Model.Data.Multiple)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="@option.Id" name="vote-inputs" id="option-@option.Id" @(option.Checked ? "checked" : null) />
+                <label class="form-check-label" for="option-@option.Id">@option.Name</label>
+            </div>
+        }
+        else
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="radio" value="@option.Id" name="vote-inputs" id="option-@option.Id" @(option.Checked ? "checked" : null) />
+                <label class="form-check-label" for="option-@option.Id">@option.Name</label>
+            </div>
+        }
+    }
+</div>
+
+<button type="button" id="vote-button" class="btn btn-success mt-1" onclick="SendVote()">Сохранить</button>
+
+@section Scripts {
+    <script>var VotingId = @Model.Data.Id;</script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/vote.min.js" asp-append-version="true"></script>
+}

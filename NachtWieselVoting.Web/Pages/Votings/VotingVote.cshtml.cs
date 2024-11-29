@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NachtWieselVoting.BusinessLogic.CommonServices;
@@ -7,14 +6,13 @@ using NachtWieselVoting.BusinessLogic.Dto.Votings;
 
 namespace NachtWieselVoting.Web.Pages.Votings;
 
-[Authorize]
-public class VotingIndexModel : PageModel
+public sealed class VotingVoteModel : PageModel
 {
     public VotingIndexData Data { get; set; } = null!;
 
     private readonly IVotingService _votingService;
     private readonly IUserManager _userManager;
-    public VotingIndexModel(IVotingService votingService, IUserManager userManager)
+    public VotingVoteModel(IVotingService votingService, IUserManager userManager)
     {
         _votingService = votingService;
         _userManager = userManager;

@@ -10,7 +10,13 @@
             <a class="btn btn-secondary" href="/Votings">Назад к списку</a>
         </div>
         <h2 class="mb-0">@ViewData["Title"]</h2>
-        <div></div>
+        <div>
+            @if (Model.Data.IsOwner)
+            {
+                <a class="btn btn-warning mx-1" role="button" href="/Voting/@Model.Data.Id/Edit">Редактировать</a>
+                <a class="btn btn-danger" role="button" href="/Voting/@Model.Data.Id/Delete">Удалить</a>
+            }
+        </div>
     </div>
 
     <hr class="my-1" />
@@ -51,8 +57,14 @@
 </div>
 
 <div class="d-flex justify-content-end">
-    <a class="btn btn-success mx-1" role="button" href="/Voting/@Model.Data.Id/Vote">Голосовать</a>
-    <a class="btn btn-success" role="button" href="/Voting/@Model.Data.Id/Option/Create">Добавить опцию</a>
+    @if (Model.Data.EndTime == null || Model.Data.EndTime > DateTime.Now)
+    {
+        <a class="btn btn-success mx-1" role="button" href="/Voting/@Model.Data.Id/Vote">Голосовать</a>
+    }
+    @if (Model.Data.IsOwner)
+    {
+        <a class="btn btn-success" role="button" href="/Voting/@Model.Data.Id/Option/Create">Добавить опцию</a>
+    }
 </div>
 
 <hr class="my-1" />
@@ -62,16 +74,22 @@
     {
         <h6>Опций не найдено</h6>
     }
-    else
+    else if (!Model.Data.Multiple)
     {
-        <h6 class="my-2">Всего голосов: @Model.Data.TotalCount</h6>
+        <h6 class="my-2" signalr-tag="total">Всего голосов: @Model.Data.TotalCount</h6>
     }
     @foreach (var option in Model.Data.Options)
     {
-        <p class="my-0">@option.Name (@option.VotedCount голосов)</p>
-        <div class="progress" role="progressbar" signalr-updatable="true" signalr-optionId="@option.Id" aria-label="Example with label" aria-valuenow="@option.VotedCount" aria-valuemin="0" aria-valuemax="@Model.Data.TotalCount">
-            <div class="progress-bar" style="width: @(Model.Data.TotalCount == 0 ? 0 : (double)option.VotedCount/(double)Model.Data.TotalCount)%;"></div>
+        <div signalr-updatable="true" signalr-optionId="@option.Id" signalr-votedCount="@option.VotedCount">
+            <p class="my-0">@(option.Checked ? "[Ваш голос] " : null)@option.Name <span>(@option.VotedCount голосов)</span></p>
+            <div class="progress" role="progressbar" aria-valuenow="@option.VotedCount" aria-valuemin="0" aria-valuemax="@Model.Data.TotalCount">
+                <div class="progress-bar" style="width: @(Model.Data.TotalCount == 0 ? 0 : ((double)option.VotedCount / (double)Model.Data.TotalCount * 100))%;"></div>
+            </div>
         </div>
+        @if (Model.Data.IsOwner)
+        {
+            <a class="btn btn-danger mt-1" role="button" href="/Voting/Option/@option.Id/Delete">Удалить опцию</a>
+        }
     }
 </div>
 

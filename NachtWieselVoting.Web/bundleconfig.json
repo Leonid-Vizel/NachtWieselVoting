@@ -4,5 +4,11 @@
     "inputFiles": [
       "wwwroot/js/voting.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/vote.min.js",
+    "inputFiles": [
+      "wwwroot/js/vote.js"
+    ]
   }
 ]

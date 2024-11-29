@@ -31,19 +31,15 @@ public sealed class VoteHub : Hub
     }
 
     [Authorize]
-    public async Task Vote(int[] optionIds)
+    public async Task Vote(int votingId, List<int> optionIds)
     {
-        optionIds = optionIds.Distinct().ToArray();
+        optionIds = optionIds.Distinct().ToList();
         var userId = _userManager.GetUserId();
         if (userId == null)
         {
             return;
         }
-        var updateVotingId = await _voteService.VoteAsync(userId.Value, optionIds);
-        if (updateVotingId == null)
-        {
-            return;
-        }
-        await Clients.Group($"{VotingPrefix}-{updateVotingId.Value}").SendAsync(ChangeMethod, optionIds);
+        var results = await _voteService.VoteAsync(userId.Value, optionIds);
+        await Clients.Group($"{VotingPrefix}-{votingId}").SendAsync(ChangeMethod, results.Item1, results.Item2);
     }
 }
