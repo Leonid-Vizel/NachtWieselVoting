@@ -8,6 +8,7 @@ public interface IVotingOptionService
 {
     Task<int> GetMaxOrderAsync(int votingId);
     Task<VotingOptionEntity?> FindAsync(int id);
+    Task<bool> ExistsAsync(int id);
     Task CreateAsync(VotingOptionEntity option);
     Task DeleteAsync(VotingOptionEntity option);
 }
@@ -23,6 +24,9 @@ public sealed class VotingOptionService(NachtWieselVotingDbContext context) : IV
 
     public Task<VotingOptionEntity?> FindAsync(int id)
         => context.Options.FirstOrDefaultAsync(x => x.Id == id);
+
+    public Task<bool> ExistsAsync(int id)
+        => context.Options.AnyAsync(x => x.Id == id);
 
     public async Task CreateAsync(VotingOptionEntity option)
     {

@@ -3,3 +3,21 @@
 @{
     ViewData["Title"] = "Удаление опции голосования";
 }
+
+<form method="post">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2 class="mb-0">@ViewData["Title"]</h2>
+        <div>
+            <a class="btn btn-secondary" href="/Voting/@Model.VotingId">Назад к голосованию</a>
+            <button class="btn btn-danger">Удалить</button>
+        </div>
+    </div>
+
+    <hr class="my-1" />
+
+    <h3>Вы уверены что хотите удалить опцию "@Model.Name"</h3>
+</form>
+
+@section Scripts {
+    <Partial name="_ValidationScriptsPartial" />
+}
